@@ -1,7 +1,8 @@
-import { Scissors, PenLine } from 'lucide-react'
+import { Check, Scissors, PenLine } from 'lucide-react'
 import { Eyebrow } from '@/components/eyebrow'
 import { Reveal } from '@/components/reveal'
 import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 import { SERVICES } from '@/data/barbershop'
 import { useBookingStore } from '@/store/booking-store'
 
@@ -11,7 +12,8 @@ const ICONS = {
 }
 
 export function Servicos() {
-  const setService = useBookingStore((s) => s.setService)
+  const serviceIds = useBookingStore((s) => s.serviceIds)
+  const toggleService = useBookingStore((s) => s.toggleService)
   const scrollToBooking = useBookingStore((s) => s.scrollToBooking)
 
   return (
@@ -22,14 +24,38 @@ export function Servicos() {
           <h2 className="mt-4 text-center font-heading text-3xl font-semibold text-brand-cream sm:text-4xl">
             Corte e sobrancelha, sem enrolação
           </h2>
+          <p className="mt-3 text-center text-sm text-brand-cream/60">
+            Pode escolher mais de um serviço no mesmo horário.
+          </p>
         </Reveal>
 
         <div className="mt-12 flex max-w-xl flex-col gap-5 sm:mx-auto">
           {SERVICES.map((service, i) => {
             const Icon = ICONS[service.id]
+            const selected = serviceIds.includes(service.id)
             return (
               <Reveal key={service.id} delay={i * 0.08}>
-                <div className="flex flex-col items-start gap-5 rounded-xl border border-brand-gold/20 bg-brand-black-deep p-7 sm:flex-row sm:items-center">
+                <button
+                  type="button"
+                  aria-pressed={selected}
+                  onClick={() => toggleService(service.id)}
+                  className={cn(
+                    'flex w-full flex-col items-start gap-5 rounded-xl border p-7 text-left transition-all duration-200 ease-out sm:flex-row sm:items-center',
+                    selected
+                      ? 'border-brand-gold bg-brand-gold/10'
+                      : 'border-brand-gold/20 bg-brand-black-deep hover:border-brand-gold/40',
+                  )}
+                >
+                  <span
+                    className={cn(
+                      'flex size-8 shrink-0 items-center justify-center rounded-md border transition-colors',
+                      selected
+                        ? 'border-brand-gold bg-brand-gold text-brand-black-deep'
+                        : 'border-brand-gold/40 text-transparent',
+                    )}
+                  >
+                    <Check className="size-5" strokeWidth={2.5} />
+                  </span>
                   <Icon className="size-8 shrink-0 text-brand-gold" strokeWidth={1.5} />
                   <div className="flex-1">
                     <h3 className="font-heading text-2xl font-semibold text-brand-cream">
@@ -45,21 +71,27 @@ export function Servicos() {
                       </span>
                     </div>
                   </div>
-                  <Button
-                    variant="outline"
-                    className="w-full sm:w-auto"
-                    onClick={() => {
-                      setService(service.id)
-                      scrollToBooking()
-                    }}
-                  >
-                    Agendar
-                  </Button>
-                </div>
+                </button>
               </Reveal>
             )
           })}
         </div>
+
+        <Reveal delay={0.16}>
+          <div className="mt-8 flex justify-center">
+            <Button
+              size="lg"
+              disabled={serviceIds.length === 0}
+              onClick={scrollToBooking}
+            >
+              {serviceIds.length === 0
+                ? 'Escolha um serviço'
+                : serviceIds.length === 1
+                  ? 'Agendar'
+                  : `Agendar ${serviceIds.length} serviços`}
+            </Button>
+          </div>
+        </Reveal>
       </div>
     </section>
   )

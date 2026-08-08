@@ -34,12 +34,14 @@ function seededRandom(seed: string) {
  * sistema de agenda real. Se um dia houver integração de agenda de verdade,
  * substituir esta função por uma chamada à API correspondente.
  */
-export function generateSlots(serviceId: ServiceId, barberId: BarberId, date: Date): TimeSlot[] {
-  const service = SERVICES.find((s) => s.id === serviceId)
-  const durationMin = service?.durationMin ?? 30
+export function generateSlots(serviceIds: ServiceId[], barberId: BarberId, date: Date): TimeSlot[] {
+  const durationMin = SERVICES.filter((s) => serviceIds.includes(s.id)).reduce(
+    (total, s) => total + s.durationMin,
+    0,
+  ) || 30
   const slots: TimeSlot[] = []
 
-  const seedKey = `${barberId}-${date.toDateString()}-${serviceId}`
+  const seedKey = `${barberId}-${date.toDateString()}-${[...serviceIds].sort().join(',')}`
   const rand = seededRandom(seedKey)
 
   for (let minutes = OPEN_HOUR * 60; minutes + durationMin <= CLOSE_HOUR * 60; minutes += durationMin) {

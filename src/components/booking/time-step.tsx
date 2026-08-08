@@ -8,20 +8,20 @@ import { generateSlots, groupSlotsByPeriod, type Period } from '@/lib/slots'
 const PERIOD_ORDER: Period[] = ['Manhã', 'Tarde', 'Noite']
 
 export function TimeStep() {
-  const serviceId = useBookingStore((s) => s.serviceId)
+  const serviceIds = useBookingStore((s) => s.serviceIds)
   const barberId = useBookingStore((s) => s.barberId)
   const date = useBookingStore((s) => s.date)
   const time = useBookingStore((s) => s.time)
   const setTime = useBookingStore((s) => s.setTime)
   const prefersReducedMotion = useReducedMotion()
 
-  const ready = Boolean(serviceId && barberId && date)
+  const ready = Boolean(serviceIds.length && barberId && date)
 
   const groups = useMemo(() => {
-    if (!serviceId || !barberId || !date) return null
-    const slots = generateSlots(serviceId, barberId, date)
+    if (!serviceIds.length || !barberId || !date) return null
+    const slots = generateSlots(serviceIds, barberId, date)
     return groupSlotsByPeriod(slots)
-  }, [serviceId, barberId, date])
+  }, [serviceIds, barberId, date])
 
   const totalSlots = groups ? PERIOD_ORDER.reduce((acc, p) => acc + groups[p].length, 0) : 0
 
@@ -57,7 +57,7 @@ export function TimeStep() {
 
       {ready && groups && totalSlots > 0 && (
         <motion.div
-          key={`grid-${serviceId}-${barberId}-${date?.toDateString()}`}
+          key={`grid-${serviceIds.join(',')}-${barberId}-${date?.toDateString()}`}
           initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35, ease: 'easeOut' }}

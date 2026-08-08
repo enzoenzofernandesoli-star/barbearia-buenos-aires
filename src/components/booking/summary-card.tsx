@@ -8,16 +8,18 @@ import { SERVICES, BARBERS } from '@/data/barbershop'
 import { whatsappUrl } from '@/data/business'
 
 export function SummaryCard() {
-  const serviceId = useBookingStore((s) => s.serviceId)
+  const serviceIds = useBookingStore((s) => s.serviceIds)
   const date = useBookingStore((s) => s.date)
   const barberId = useBookingStore((s) => s.barberId)
   const time = useBookingStore((s) => s.time)
 
-  const service = SERVICES.find((s) => s.id === serviceId)
+  const services = SERVICES.filter((s) => serviceIds.includes(s.id))
   const barber = BARBERS.find((b) => b.id === barberId)
-  const complete = Boolean(service && date && barber && time)
+  const complete = Boolean(services.length && date && barber && time)
 
-  if (!complete || !service || !date || !barber || !time) return null
+  if (!complete || !date || !barber || !time) return null
+
+  const serviceNames = services.map((s) => s.name).join(' + ')
 
   return (
     <motion.div
@@ -30,9 +32,9 @@ export function SummaryCard() {
         Resumo do agendamento
       </p>
       <dl className="mt-4 space-y-2 text-sm">
-        <div className="flex justify-between">
-          <dt className="text-brand-cream/60">Serviço</dt>
-          <dd className="font-medium text-brand-cream">{service.name}</dd>
+        <div className="flex justify-between gap-4">
+          <dt className="shrink-0 text-brand-cream/60">Serviço{services.length > 1 ? 's' : ''}</dt>
+          <dd className="text-right font-medium text-brand-cream">{serviceNames}</dd>
         </div>
         <div className="flex justify-between">
           <dt className="text-brand-cream/60">Data</dt>
@@ -53,7 +55,7 @@ export function SummaryCard() {
       <Button variant="whatsapp" size="lg" className="mt-6 w-full" asChild>
         <a
           href={whatsappUrl(
-            `Olá! Gostaria de agendar: ${service.name} com ${barber.name} no dia ${format(date, 'dd/MM')} às ${time}.`,
+            `Olá! Gostaria de agendar: ${serviceNames} com ${barber.name} no dia ${format(date, 'dd/MM')} às ${time}.`,
           )}
           target="_blank"
           rel="noopener noreferrer"

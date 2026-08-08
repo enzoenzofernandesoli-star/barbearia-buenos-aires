@@ -14,8 +14,8 @@ const ICONS = {
 }
 
 export function Agendamento() {
-  const serviceId = useBookingStore((s) => s.serviceId)
-  const service = SERVICES.find((s) => s.id === serviceId)
+  const serviceIds = useBookingStore((s) => s.serviceIds)
+  const services = SERVICES.filter((s) => serviceIds.includes(s.id))
 
   return (
     <section id="agendamento" className="bg-brand-black-deep px-5 py-20">
@@ -28,10 +28,10 @@ export function Agendamento() {
         </Reveal>
 
         <div className="mt-10 rounded-xl border border-brand-gold/15 bg-brand-black p-6 sm:p-8">
-          {!service ? (
+          {services.length === 0 ? (
             <div className="flex flex-col items-center gap-3 rounded-xl border border-dashed border-brand-gold/25 bg-brand-black-deep px-6 py-10 text-center">
               <p className="text-sm text-brand-cream/60">
-                Escolha um serviço para começar o agendamento.
+                Escolha um ou mais serviços para começar o agendamento.
               </p>
               <a
                 href="#servicos"
@@ -58,27 +58,37 @@ export function Agendamento() {
 }
 
 function ServiceSummary() {
-  const serviceId = useBookingStore((s) => s.serviceId)
-  const service = SERVICES.find((s) => s.id === serviceId)
-  if (!service) return null
+  const serviceIds = useBookingStore((s) => s.serviceIds)
+  const services = SERVICES.filter((s) => serviceIds.includes(s.id))
+  if (services.length === 0) return null
 
-  const Icon = ICONS[service.id]
+  const totalPrice = services.reduce((acc, s) => acc + s.price, 0)
+  const totalDuration = services.reduce((acc, s) => acc + s.durationMin, 0)
 
   return (
-    <div className="flex items-center gap-3 rounded-xl border border-brand-gold/25 bg-brand-gold/5 p-4">
-      <Icon className="size-6 shrink-0 text-brand-gold" strokeWidth={1.5} />
-      <div className="flex-1">
-        <p className="font-medium text-brand-cream">{service.name}</p>
-        <p className="text-xs text-brand-cream/55">
-          R$ {service.price.toFixed(2).replace('.', ',')} · ~{service.durationMin} min
-        </p>
+    <div className="rounded-xl border border-brand-gold/25 bg-brand-gold/5 p-4">
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex-1 space-y-2">
+          {services.map((service) => {
+            const Icon = ICONS[service.id]
+            return (
+              <div key={service.id} className="flex items-center gap-3">
+                <Icon className="size-5 shrink-0 text-brand-gold" strokeWidth={1.5} />
+                <p className="font-medium text-brand-cream">{service.name}</p>
+              </div>
+            )
+          })}
+        </div>
+        <a
+          href="#servicos"
+          className="shrink-0 text-xs font-medium text-brand-gold/80 underline-offset-4 hover:underline"
+        >
+          Trocar
+        </a>
       </div>
-      <a
-        href="#servicos"
-        className="text-xs font-medium text-brand-gold/80 underline-offset-4 hover:underline"
-      >
-        Trocar
-      </a>
+      <p className="mt-3 text-xs text-brand-cream/55">
+        R$ {totalPrice.toFixed(2).replace('.', ',')} · ~{totalDuration} min no total
+      </p>
     </div>
   )
 }
