@@ -84,7 +84,15 @@ export function Hero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.35, ease: 'easeOut' }}
-          className="mt-1 font-heading text-4xl font-bold uppercase tracking-[0.12em] text-brand-cream sm:text-5xl"
+          className="mt-1 font-heading text-4xl font-bold uppercase tracking-[0.12em] sm:text-5xl"
+          style={{
+            backgroundImage:
+              'linear-gradient(to bottom, #75AADB 0%, #75AADB 32%, #FFFFFF 32%, #FFFFFF 68%, #75AADB 68%, #75AADB 100%)',
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            color: 'transparent',
+            WebkitTextFillColor: 'transparent',
+          }}
         >
           Buenos Aires
         </motion.h1>
