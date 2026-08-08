@@ -12,15 +12,9 @@ export function Sobre() {
           </h2>
           <div className="mt-6 space-y-4 text-base leading-relaxed text-brand-cream/75 sm:text-lg">
             <p>
-              Antes de existir uma placa na porta, já existia o Nadson cortando cabelo no mesmo
-              pedaço do centro de São Paulo — o tipo de barbeiro que sabe de cor o corte que cada
-              cliente antigo gosta, sem precisar perguntar.
-            </p>
-            <p>
-              Foi aí que chegou o Gringo, direto de Buenos Aires, trazendo na bagagem o estilo e a
-              tradição das barbearias argentinas. A amizade entre os dois virou sociedade, e a
-              sociedade virou a Barbearia Buenos Aires — nome que carrega, ao mesmo tempo, a origem
-              do Gringo e a nova casa que os dois construíram juntos.
+              Nadson e Gringo são amigos de longa data, e foi dessa amizade que nasceu a Barbearia
+              Buenos Aires — os dois se juntaram para abrir a casa juntos, cada um com seu jeito na
+              tesoura e na navalha.
             </p>
             <p>
               De lá pra cá, o endereço mudou, mas o espírito continua o mesmo: navalha afiada,
