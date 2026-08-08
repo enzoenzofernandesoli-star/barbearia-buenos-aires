@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
+import { motion, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion'
 import { MapPin, ScissorsIcon } from 'lucide-react'
 import { BarberPole } from '@/components/barber-pole'
 import { BuenosAiresSkyline } from '@/components/buenos-aires-skyline'
@@ -17,7 +17,8 @@ export function Hero() {
     target: sectionRef,
     offset: ['start start', 'end start'],
   })
-  const parallaxX = useTransform(scrollYProgress, [0, 1], [0, -180])
+  const rawParallaxX = useTransform(scrollYProgress, [0, 1], [0, -180])
+  const parallaxX = useSpring(rawParallaxX, { stiffness: 45, damping: 16, mass: 0.6 })
 
   return (
     <section
