@@ -48,13 +48,8 @@ export function Barbeiros() {
                     >
                       <UserRound className="size-9" strokeWidth={1.25} />
                     </span>
-                    <span className="flex-1">
-                      <span className="block font-heading text-xl font-semibold text-brand-cream">
-                        {barber.name}
-                      </span>
-                      <span className="block text-xs uppercase tracking-widest text-brand-gold/70">
-                        {barber.tagline}
-                      </span>
+                    <span className="flex-1 font-heading text-xl font-semibold text-brand-cream">
+                      {barber.name}
                     </span>
                     <ChevronDown
                       className={cn(
