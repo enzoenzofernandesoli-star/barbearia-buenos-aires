@@ -87,7 +87,7 @@ export function Hero() {
           className="mt-1 font-heading text-4xl font-bold uppercase tracking-[0.12em] sm:text-5xl"
           style={{
             backgroundImage:
-              'linear-gradient(to bottom, #75AADB 0%, #75AADB 32%, #FFFFFF 32%, #FFFFFF 68%, #75AADB 68%, #75AADB 100%)',
+              'linear-gradient(to bottom, #9DC0DE 0%, #9DC0DE 32%, #F2EDE1 32%, #F2EDE1 68%, #9DC0DE 68%, #9DC0DE 100%)',
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
             color: 'transparent',
