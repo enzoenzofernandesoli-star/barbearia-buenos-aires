@@ -1,0 +1,116 @@
+@import 'tailwindcss';
+
+@theme {
+  /* Barbearia Buenos Aires — paleta da marca */
+  --color-brand-black: #1a1210;
+  --color-brand-black-deep: #0d0908;
+  --color-brand-gold: #d4af6a;
+  --color-brand-gold-soft: #f0dcac;
+  --color-brand-red: #b0262c;
+  --color-brand-blue: #1f3a6e;
+  --color-brand-cream: #f4ecd8;
+
+  /* Tokens semânticos (shadcn) */
+  --color-background: var(--color-brand-black);
+  --color-foreground: var(--color-brand-cream);
+  --color-card: var(--color-brand-black-deep);
+  --color-card-foreground: var(--color-brand-cream);
+  --color-popover: var(--color-brand-black-deep);
+  --color-popover-foreground: var(--color-brand-cream);
+  --color-primary: var(--color-brand-gold);
+  --color-primary-foreground: var(--color-brand-black-deep);
+  --color-secondary: var(--color-brand-blue);
+  --color-secondary-foreground: var(--color-brand-cream);
+  --color-muted: #2a201c;
+  --color-muted-foreground: var(--color-brand-gold-soft);
+  --color-accent: var(--color-brand-red);
+  --color-accent-foreground: var(--color-brand-cream);
+  --color-destructive: var(--color-brand-red);
+  --color-destructive-foreground: var(--color-brand-cream);
+  --color-border: rgba(212, 175, 106, 0.22);
+  --color-input: rgba(212, 175, 106, 0.22);
+  --color-ring: var(--color-brand-gold);
+
+  --font-heading: 'Playfair Display', 'Georgia', serif;
+  --font-script: 'Alex Brush', 'Brush Script MT', cursive;
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --radius-xl: 0.9rem;
+
+  --animate-pole-slide: pole-slide 6s linear infinite;
+
+  @keyframes pole-slide {
+    from {
+      background-position: 0 0;
+    }
+    to {
+      background-position: 0 80px;
+    }
+  }
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-heading);
+  }
+
+  ::selection {
+    background: var(--color-brand-gold);
+    color: var(--color-brand-black-deep);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand-gold);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer utilities {
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 100;
+    background: var(--color-brand-gold);
+    color: var(--color-brand-black-deep);
+    padding: 0.75rem 1.25rem;
+    border-radius: 0 0 0.5rem 0;
+    font-weight: 600;
+  }
+  .skip-link:focus {
+    left: 0;
+  }
+}
